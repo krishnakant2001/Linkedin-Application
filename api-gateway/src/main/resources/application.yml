@@ -1,8 +1,29 @@
-spring.application.name: api-gateway
-
 server.port: 8080
 
+#api-gateway-config
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - StripPrefix=2
+
+        - id: posts-service
+          uri: lb://POSTS-SERVICE
+          predicates:
+            - Path=/api/v1/posts/**
+          filters:
+            - StripPrefix=2
+
 #eureka configuration
-eureka.client.service-url.defaultZone: http://localhost:8761/eureka
-
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

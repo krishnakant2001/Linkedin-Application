@@ -37,5 +37,3 @@ public class PostsController {
         return ResponseEntity.ok(postDtoList);
     }
 }
-//https://www.linkedin.com/flagship-web/rsc-action/actions/server-request?sduiid=com.linkedin.sdui.reactions.create&parentSpanId=pRezW%2FiPNI4%3D
-//https://www.linkedin.com/flagship-web/rsc-action/actions/server-request?sduiid=com.linkedin.sdui.reactions.delete&parentSpanId=izFS57F5IIc%3D
