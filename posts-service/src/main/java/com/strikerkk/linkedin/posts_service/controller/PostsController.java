@@ -1,6 +1,7 @@
 package com.strikerkk.linkedin.posts_service.controller;
 
 
+import com.strikerkk.linkedin.posts_service.auth.UserContextHolder;
 import com.strikerkk.linkedin.posts_service.dto.PostCreateRequestDto;
 import com.strikerkk.linkedin.posts_service.dto.PostDto;
 import com.strikerkk.linkedin.posts_service.service.PostsService;
@@ -21,13 +22,13 @@ public class PostsController {
 
     @PostMapping
     public ResponseEntity<PostDto> createPost(@RequestBody PostCreateRequestDto postCreateRequestDto, HttpServletRequest httpServletRequest) {
-        PostDto createdPost = postsService.createPost(postCreateRequestDto, 1L);
+        Long userId = UserContextHolder.getCurrentUserId();
+        PostDto createdPost = postsService.createPost(postCreateRequestDto, userId);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostDto> getPost(@PathVariable Long postId, HttpServletRequest httpServletRequest) {
-        String userId = httpServletRequest.getHeader("X-user-Id");
+    public ResponseEntity<PostDto> getPost(@PathVariable Long postId) {
         PostDto post = postsService.getPostById(postId);
         return ResponseEntity.ok(post);
     }
