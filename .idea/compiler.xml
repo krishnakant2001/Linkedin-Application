@@ -9,7 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="discovery-server" />
       </profile>
-      <profile name="Annotation profile for posts-service" enabled="true">
+      <profile name="Annotation profile for connections-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -18,6 +18,7 @@
         </processorPath>
         <module name="posts-service" />
         <module name="api-gateway" />
+        <module name="connections-service" />
         <module name="user-service" />
       </profile>
     </annotationProcessing>
@@ -25,6 +26,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
+      <module name="connections-service" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="posts-service" options="-parameters" />
       <module name="user-service" options="-parameters" />
