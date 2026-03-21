@@ -1,6 +1,8 @@
 package com.strikerkk.linkedin.posts_service.service;
 
 import com.strikerkk.linkedin.posts_service.auth.UserContextHolder;
+import com.strikerkk.linkedin.posts_service.clients.ConnectionsClient;
+import com.strikerkk.linkedin.posts_service.dto.PersonDto;
 import com.strikerkk.linkedin.posts_service.dto.PostCreateRequestDto;
 import com.strikerkk.linkedin.posts_service.dto.PostDto;
 import com.strikerkk.linkedin.posts_service.entity.Posts;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class PostsService {
 
     private final PostsRepository postsRepository;
+    private final ConnectionsClient connectionsClient;
     private final ModelMapper modelMapper;
 
 
@@ -35,6 +38,8 @@ public class PostsService {
         log.debug("Retrieving post with Id: {}", postId);
 
         Long userId = UserContextHolder.getCurrentUserId();
+
+        List<PersonDto> firstConnections = connectionsClient.getFirstConnections(userId);
 
         Posts post =  postsRepository.findById(postId).orElseThrow(() ->
                 new ResourceNotFoundException("Post not found with id: " + postId));
