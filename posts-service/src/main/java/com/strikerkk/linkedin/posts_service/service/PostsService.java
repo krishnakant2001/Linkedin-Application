@@ -39,7 +39,8 @@ public class PostsService {
 
         Long userId = UserContextHolder.getCurrentUserId();
 
-        List<PersonDto> firstConnections = connectionsClient.getFirstConnections(userId);
+        List<PersonDto> firstConnections = connectionsClient.getFirstConnections();
+        // TODO: Send notifications to all connections
 
         Posts post =  postsRepository.findById(postId).orElseThrow(() ->
                 new ResourceNotFoundException("Post not found with id: " + postId));
