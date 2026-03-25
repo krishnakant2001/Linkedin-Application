@@ -6,11 +6,13 @@ import com.strikerkk.linkedin.posts_service.dto.PersonDto;
 import com.strikerkk.linkedin.posts_service.dto.PostCreateRequestDto;
 import com.strikerkk.linkedin.posts_service.dto.PostDto;
 import com.strikerkk.linkedin.posts_service.entity.Posts;
+import com.strikerkk.linkedin.posts_service.events.PostCreatedEvent;
 import com.strikerkk.linkedin.posts_service.exception.ResourceNotFoundException;
 import com.strikerkk.linkedin.posts_service.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +27,23 @@ public class PostsService {
     private final ConnectionsClient connectionsClient;
     private final ModelMapper modelMapper;
 
+    private final KafkaTemplate<Long, PostCreatedEvent> kafkaTemplate;
 
-    public PostDto createPost(PostCreateRequestDto postCreateRequestDto, Long userId) {
+
+    public PostDto createPost(PostCreateRequestDto postCreateRequestDto) {
+        Long userId = UserContextHolder.getCurrentUserId();
         Posts posts = modelMapper.map(postCreateRequestDto, Posts.class);
         posts.setUserId(userId);
 
         Posts savedPost = postsRepository.save(posts);
+        PostCreatedEvent postCreatedEvent = PostCreatedEvent.builder()
+                .postId(posts.getId())
+                .createdId(userId)
+                .content(posts.getContent())
+                .build();
+
+        kafkaTemplate.send("post-created-topic", postCreatedEvent);
+
         return modelMapper.map(savedPost, PostDto.class);
     }
 
