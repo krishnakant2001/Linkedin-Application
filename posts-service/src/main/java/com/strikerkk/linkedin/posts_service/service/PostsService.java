@@ -2,7 +2,6 @@ package com.strikerkk.linkedin.posts_service.service;
 
 import com.strikerkk.linkedin.posts_service.auth.UserContextHolder;
 import com.strikerkk.linkedin.posts_service.clients.ConnectionsClient;
-import com.strikerkk.linkedin.posts_service.dto.PersonDto;
 import com.strikerkk.linkedin.posts_service.dto.PostCreateRequestDto;
 import com.strikerkk.linkedin.posts_service.dto.PostDto;
 import com.strikerkk.linkedin.posts_service.entity.Posts;
@@ -38,7 +37,7 @@ public class PostsService {
         Posts savedPost = postsRepository.save(posts);
         PostCreatedEvent postCreatedEvent = PostCreatedEvent.builder()
                 .postId(posts.getId())
-                .createdId(userId)
+                .creatorId(userId)
                 .content(posts.getContent())
                 .build();
 
@@ -49,11 +48,6 @@ public class PostsService {
 
     public PostDto getPostById(Long postId) {
         log.debug("Retrieving post with Id: {}", postId);
-
-        Long userId = UserContextHolder.getCurrentUserId();
-
-        List<PersonDto> firstConnections = connectionsClient.getFirstConnections();
-        // TODO: Send notifications to all connections
 
         Posts post =  postsRepository.findById(postId).orElseThrow(() ->
                 new ResourceNotFoundException("Post not found with id: " + postId));
