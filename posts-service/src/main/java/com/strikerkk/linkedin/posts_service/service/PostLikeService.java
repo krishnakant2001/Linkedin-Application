@@ -3,7 +3,7 @@ package com.strikerkk.linkedin.posts_service.service;
 import com.strikerkk.linkedin.posts_service.auth.UserContextHolder;
 import com.strikerkk.linkedin.posts_service.entity.PostLike;
 import com.strikerkk.linkedin.posts_service.entity.Posts;
-import com.strikerkk.linkedin.posts_service.events.PostLikedEvent;
+import com.strikerkk.linkedin.posts_service.event.PostLikedEvent;
 import com.strikerkk.linkedin.posts_service.exception.BadRequestException;
 import com.strikerkk.linkedin.posts_service.exception.ResourceNotFoundException;
 import com.strikerkk.linkedin.posts_service.repository.PostLikeRepository;

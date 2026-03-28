@@ -1,4 +1,4 @@
-package com.strikerkk.linkedin.posts_service.events;
+package com.strikerkk.linkedin.posts_service.event;
 
 import lombok.Builder;
 import lombok.Data;

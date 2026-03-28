@@ -5,7 +5,7 @@ import com.strikerkk.linkedin.posts_service.clients.ConnectionsClient;
 import com.strikerkk.linkedin.posts_service.dto.PostCreateRequestDto;
 import com.strikerkk.linkedin.posts_service.dto.PostDto;
 import com.strikerkk.linkedin.posts_service.entity.Posts;
-import com.strikerkk.linkedin.posts_service.events.PostCreatedEvent;
+import com.strikerkk.linkedin.posts_service.event.PostCreatedEvent;
 import com.strikerkk.linkedin.posts_service.exception.ResourceNotFoundException;
 import com.strikerkk.linkedin.posts_service.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
