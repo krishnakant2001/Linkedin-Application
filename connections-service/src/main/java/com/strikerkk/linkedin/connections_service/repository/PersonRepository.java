@@ -3,6 +3,7 @@ package com.strikerkk.linkedin.connections_service.repository;
 import com.strikerkk.linkedin.connections_service.entity.Person;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
     Optional<Person> getByName(String name);
+
+
 
     @Query("MATCH (p1:Person) -[:CONNECTED_TO]- (p2:Person) " +
             "WHERE p1.userId = $userId " +
@@ -47,4 +50,11 @@ public interface PersonRepository extends Neo4jRepository<Person, Long> {
             "WHERE p1.userId = $senderId AND p2.userId = $receiverId " +
             "DELETE r")
     void rejectConnectionRequest(Long senderId, Long receiverId);
+
+    @Query("""
+    MERGE (p1:Person {userId: $userId})
+    SET p1.name = $name
+    """)
+    void createNewUserNode(@Param("userId") Long userId,
+                           @Param("name") String name);
 }
